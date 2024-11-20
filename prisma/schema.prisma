@@ -18,11 +18,14 @@ model Users {
   username String
   email String
   Workspaces Workspaces[]
+  Employes Employes[]
   createdAt DateTime @default(now())
 }
 
 model Employes {
   id String @id @default(uuid())
+  ownerId String 
+  owner Users @relation(fields: [ownerId], references: [id])
   workspaceId String
   workspace Workspaces @relation(fields: [workspaceId], references: [id])
   username String
