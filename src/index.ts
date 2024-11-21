@@ -1,6 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
-import { createEmployee } from "./routes/createEmployee";
+import { createEmployee } from "./routes/Employees/createEmployee";
 export const app = express();
 export const prisma = new PrismaClient();
 app.use(express.json());
