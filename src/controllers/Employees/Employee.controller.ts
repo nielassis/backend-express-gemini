@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import {
   findWorkspace,
   createEmployeeRecord,
-} from "../models/Employees/Employees.model";
+} from "../../models/Employees/Employees.model";
 
 export const createEmployee = async (
   req: Request,
