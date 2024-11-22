@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
-import { nanoid } from "nanoid";
 import bcrypt from "bcryptjs";
-import { prisma } from "../..";
+import { nanoid } from "nanoid";
+import {
+  findWorkspace,
+  createEmployeeRecord,
+} from "../models/Employees/Employees.model";
 
 export const createEmployee = async (
   req: Request,
@@ -17,9 +20,7 @@ export const createEmployee = async (
   }
 
   try {
-    const workspaceExists = await prisma.workspaces.findFirst({
-      where: { id: workspaceId, ownerId },
-    });
+    const workspaceExists = await findWorkspace(ownerId, workspaceId);
 
     if (!workspaceExists) {
       res.status(404).json({
@@ -32,14 +33,12 @@ export const createEmployee = async (
     const randomPassword = nanoid(10);
     const hashedPassword = await bcrypt.hash(randomPassword, 10);
 
-    const employee = await prisma.employes.create({
-      data: {
-        ownerId,
-        workspaceId,
-        username: randomLogin,
-        login: randomLogin,
-        password: hashedPassword,
-      },
+    const employee = await createEmployeeRecord({
+      ownerId,
+      workspaceId,
+      username: randomLogin,
+      login: randomLogin,
+      password: hashedPassword,
     });
 
     res.status(201).json({
